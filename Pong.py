@@ -34,6 +34,34 @@ ball.color("white")
 ball.penup()    
 ball.goto(0, 0)  # x and y coordinates
 
+# Function
+def paddle_a_up():
+    y = paddle_a.ycor() #paddle_a = name of object , ycor = method from turtle module that returns y cordinate
+    y += 20 # move y 20 up
+    paddle_a.sety(y)    # moves paddle to new y coordinate
+
+def paddle_a_down():
+    y = paddle_a.ycor() #paddle_a = name of object , ycor = method from turtle module that returns y cordinate
+    y -= 20 # move y 20 up
+    paddle_a.sety(y)    # moves paddle to new y coordinate
+
+def paddle_b_up():
+    y = paddle_b.ycor() #paddle_b = name of object , ycor = method from turtle module that returns y cordinate
+    y += 20 # move y 20 up
+    paddle_b.sety(y)    # moves paddle to new y coordinate
+
+def paddle_b_down():
+    y = paddle_b.ycor() #paddle_b = name of object , ycor = method from turtle module that returns y cordinate
+    y -= 20 # move y 20 up
+    paddle_b.sety(y)    # moves paddle to new y coordinate
+
+# Keyboard binding
+wn.listen() # Listens for keyboard inputs
+wn.onkeypress(paddle_a_up, "w") # When user presses lowercase w key, calls function paddle_a_up
+wn.onkeypress(paddle_a_down, "s") # When user presses lowercase w key, calls function paddle_a_down
+wn.onkeypress(paddle_b_up, "Up") # When user presses lowercase w key, calls function paddle_b_up
+wn.onkeypress(paddle_b_down, "Down") # When user presses lowercase w key, calls function paddle_b_down
+
 # Main game loop
 while True:
     wn.update() #everytime the loop runs it updates the screen
