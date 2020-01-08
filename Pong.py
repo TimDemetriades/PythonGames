@@ -1,6 +1,7 @@
 # Pong
 
 import turtle   #module for simple games and graphics
+import winsound #module for playing sounds from files in windows
 
 wn = turtle.Screen()    #captial S is important
 wn.title("Pong by Tim Demetriades")
@@ -89,10 +90,12 @@ while True:
     if ball.ycor() > 290:   # if y coordinate is 300 (half screen height) - 10 (half ball height)
         ball.sety(290)      # keep ball at 290
         ball.dy *= -1       # and reverse direction
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)    # adds sound when bouncing off stuff, async lets it happen w/out pausing game
 
     if ball.ycor() < -290:  # if y coordinate is -300 (half screen height) - -10 (half ball height)
         ball.sety(-290)     # keep ball at -290
         ball.dy *= -1       # and reverse direction
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
 
     if ball.xcor() > 390:   # if x cooridnate is 400 (half screen width) - 10 (half ball width)
         ball.goto(0, 0)     # put ball back at center
@@ -112,8 +115,10 @@ while True:
     if (ball.xcor() > 350 - 10 and ball.xcor() < 350) and (ball.ycor()) < paddle_b.ycor() + (50 - 10) and ball.ycor() > paddle_b.ycor() - (50 - 10):
         ball.setx(340)
         ball.dx *= -1
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
 
     if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor()) < paddle_a.ycor() + (50 - 10) and ball.ycor() > paddle_a.ycor() - (50 - 10):
         ball.setx(-340)
         ball.dx *= -1
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
    
