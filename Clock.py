@@ -12,7 +12,7 @@ pen.hideturtle()
 pen.speed(0)            # animation speed (max)
 pen.pensize(3)
 
-def draw_clock(pen):    # function to draw clock using pen
+def draw_clock(h, m, s, pen):    # function to draw clock using pen
 
     # Draws clock face
     pen.up()            # do not draw line
@@ -33,11 +33,39 @@ def draw_clock(pen):    # function to draw clock using pen
         pen.fd(20)      # draws line to circle
         pen.penup()
         pen.goto(0,0)
-        pen.rt(30)      #repeats every 30 degrees
+        pen.rt(30)      # repeats every 30 degrees
 
-draw_clock(pen)
+    # Draw the hour hand
+    pen.penup()
+    pen.goto(0,0)
+    pen.color("white")
+    pen.setheading(90)  # set heading to straight up
+    angle = (h / 12) * 360
+    pen.rt(angle)
+    pen.pendown()
+    pen.fd(100)
 
+    # Draw the minute hand
+    pen.penup()
+    pen.goto(0,0)
+    pen.color("blue")
+    pen.setheading(90)  # set heading to straight up
+    angle = (m / 60) * 360
+    pen.rt(angle)
+    pen.pendown()
+    pen.fd(180)
 
+    # Draw the second hand
+    pen.penup()
+    pen.goto(0,0)
+    pen.color("gold")
+    pen.setheading(90)  # set heading to straight up
+    angle = (s / 60) * 360
+    pen.rt(angle)
+    pen.pendown()
+    pen.fd(50)
+
+draw_clock(10, 15, 0, pen)
 
 
 wn.mainloop()   #keeps window from closing
