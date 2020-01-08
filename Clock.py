@@ -1,10 +1,12 @@
 # Simple Analog Clock
 
+import time
 import turtle           # turtle module
 wn = turtle.Screen()    # sets up screen window
 wn.bgcolor("black")
 wn.setup(width=600, height=600)
 wn.title("Simple Analog Clock by Tim Demetriades")
+wn.tracer(0)
 
 # Create our drawing pen
 pen = turtle.Turtle()
@@ -65,7 +67,17 @@ def draw_clock(h, m, s, pen):    # function to draw clock using pen
     pen.pendown()
     pen.fd(50)
 
-draw_clock(10, 15, 0, pen)
+while True:
+    h = int(time.strftime("%I"))    # gives string formatted time as int in hours from 0 to 12
+    m = int(time.strftime("%M"))    # gives string formatted time as int in minutes from 0 to 60
+    s = int(time.strftime("%s"))    # gives string formatted time as int in seconds from 0 to 60
+
+    draw_clock(h, m, s, pen)
+    wn.update()
+
+    time.sleep(1)
+
+    pen.clear()
 
 
 wn.mainloop()   #keeps window from closing
