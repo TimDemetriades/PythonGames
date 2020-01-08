@@ -8,6 +8,10 @@ wn.bgcolor("black")
 wn.setup(width=800, height=600)
 wn.tracer(0)    #stops window from updating, speeds up the game
 
+# Score
+score_a = 0
+score_b = 0
+
 # Paddle A
 paddle_a = turtle.Turtle()  #turtle = module , Turtle = class (in turtle module)
 paddle_a.speed(0)   # speed of animation, set to max
@@ -31,10 +35,19 @@ ball = turtle.Turtle()  #turtle = module , Turtle = class (in turtle module)
 ball.speed(0)   # speed of animation, set to max
 ball.shape("square")
 ball.color("white")
-ball.penup()    
+ball.penup()    #Prevents lines on screen
 ball.goto(0, 0)  # x and y coordinates
 ball.dx = 0.1 # change in x
 ball.dy = 0.1 # change in y
+
+# Pen
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 260)
+pen.write("Player A: 0  Player B: 0", align="center", font=("Comic Sans MS", 24, "normal"))
 
 # Function
 def paddle_a_up():
@@ -84,10 +97,16 @@ while True:
     if ball.xcor() > 390:   # if x cooridnate is 400 (half screen width) - 10 (half ball width)
         ball.goto(0, 0)     # put ball back at center
         ball.dx *= -1       # and reverse direction
+        score_a += 1        # increase score by one
+        pen.clear()         # clear score pen
+        pen.write("Player A: {}  Player B: {}".format(score_a, score_b), align="center", font=("Comic Sans MS", 24, "normal"))
 
     if ball.xcor() < -390:  # if x cooridnate is -400 (half screen width) - -10 (half ball width)
         ball.goto(0, 0)     # put ball back at center
         ball.dx *= -1       # and reverse direction
+        score_b += 1        # increase score by one
+        pen.clear()         # clear score pen
+        pen.write("Player A: {}  Player B: {}".format(score_a, score_b), align="center", font=("Comic Sans MS", 24, "normal"))
 
     # Paddle and ball collisions
     if (ball.xcor() > 350 - 10 and ball.xcor() < 350) and (ball.ycor()) < paddle_b.ycor() + (50 - 10) and ball.ycor() > paddle_b.ycor() - (50 - 10):
