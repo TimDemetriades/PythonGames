@@ -33,8 +33,8 @@ ball.shape("square")
 ball.color("white")
 ball.penup()    
 ball.goto(0, 0)  # x and y coordinates
-ball.dx = 0.10 # change in x
-ball.dy = 0.10 # change in y
+ball.dx = 0.1 # change in x
+ball.dy = 0.1 # change in y
 
 # Function
 def paddle_a_up():
@@ -89,3 +89,12 @@ while True:
         ball.goto(0, 0)     # put ball back at center
         ball.dx *= -1       # and reverse direction
 
+    # Paddle and ball collisions
+    if (ball.xcor() > 350 - 10 and ball.xcor() < 350) and (ball.ycor()) < paddle_b.ycor() + (50 - 10) and ball.ycor() > paddle_b.ycor() - (50 - 10):
+        ball.setx(340)
+        ball.dx *= -1
+
+    if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor()) < paddle_a.ycor() + (50 - 10) and ball.ycor() > paddle_a.ycor() - (50 - 10):
+        ball.setx(-340)
+        ball.dx *= -1
+   
