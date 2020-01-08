@@ -33,6 +33,8 @@ ball.shape("square")
 ball.color("white")
 ball.penup()    
 ball.goto(0, 0)  # x and y coordinates
+ball.dx = 0.10 # change in x
+ball.dy = 0.10 # change in y
 
 # Function
 def paddle_a_up():
@@ -65,4 +67,25 @@ wn.onkeypress(paddle_b_down, "Down") # When user presses lowercase w key, calls 
 # Main game loop
 while True:
     wn.update() #everytime the loop runs it updates the screen
+
+    # Move the ball
+    ball.setx(ball.xcor() + ball.dx)    # Moves ball right
+    ball.sety(ball.ycor() + ball.dy)    # Moves ball up
+
+    # Border checking
+    if ball.ycor() > 290:   # if y coordinate is 300 (half screen height) - 10 (half ball height)
+        ball.sety(290)      # keep ball at 290
+        ball.dy *= -1       # and reverse direction
+
+    if ball.ycor() < -290:  # if y coordinate is -300 (half screen height) - -10 (half ball height)
+        ball.sety(-290)     # keep ball at -290
+        ball.dy *= -1       # and reverse direction
+
+    if ball.xcor() > 390:   # if x cooridnate is 400 (half screen width) - 10 (half ball width)
+        ball.goto(0, 0)     # put ball back at center
+        ball.dx *= -1       # and reverse direction
+
+    if ball.xcor() < -390:  # if x cooridnate is -400 (half screen width) - -10 (half ball width)
+        ball.goto(0, 0)     # put ball back at center
+        ball.dx *= -1       # and reverse direction
 
