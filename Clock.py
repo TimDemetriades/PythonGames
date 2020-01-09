@@ -70,7 +70,7 @@ def draw_clock(h, m, s, pen):    # function to draw clock using pen
 while True:
     h = int(time.strftime("%I"))    # gives string formatted time as int in hours from 0 to 12
     m = int(time.strftime("%M"))    # gives string formatted time as int in minutes from 0 to 60
-    s = int(time.strftime("%s"))    # gives string formatted time as int in seconds from 0 to 60
+    s = int(time.strftime("%S"))    # gives string formatted time as int in seconds from 0 to 60
 
     draw_clock(h, m, s, pen)
     wn.update()
