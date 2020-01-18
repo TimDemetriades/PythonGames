@@ -49,7 +49,16 @@ bullet_state = "ready"
 # Ready = you can't see the bullet
 # Fire = the bullet is moving
 
-score = 0   # starting score
+# Score
+score_value = 0
+font = pygame.font.Font("freesansbold.ttf", 32)     # font style and size
+
+textX = 10  # score x coordinate
+textY = 10  # score y coordinate
+
+def show_score(x, y):
+    score = font.render("Score : " + str(score_value), True, (255,255,255))
+    screen.blit(score, (x, y))
 
 def player(x, y):
     screen.blit(playerImg, (x, y))   # blit is for drawing
@@ -122,8 +131,7 @@ while running:
         if collision:
             bulletY = 480
             bullet_state = "ready"
-            score = score + 1
-            print(score)
+            score_value = score_value + 1
             # then respawn enemy
             enemyX[i] = random.randint(0,735)      # spawns between 0 and 800 on x-axis
             enemyY[i] = random.randint(50,150)     # spawns between 50 and 150 on y-axis
@@ -140,5 +148,6 @@ while running:
         bulletY = bulletY - bulletY_change  # move bullet in y direction
 
     player(playerX,playerY)    #must draw player after drawing screen so it appears on top
+    show_score(textX,textY)
 
     pygame.display.update()     # update screen
