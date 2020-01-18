@@ -25,11 +25,19 @@ playerY = 480
 playerX_change = 0.0
 
 # Enemy
-enemyImg = pygame.image.load("mike.png")
-enemyX = random.randint(0,735)      # spawns between 0 and 800 on x-axis
-enemyY = random.randint(50,150)     # spawns between 50 and 150 on y-axis
-enemyX_change = 1.5
-enemyY_change = 30
+enemyImg = []       #empty list
+enemyX = []
+enemyY = []
+enemyX_change = []
+enemyY_change = []
+num_of_enemies = 5
+
+for i in range (num_of_enemies):
+    enemyImg.append(pygame.image.load("mike.png")) 
+    enemyX.append(random.randint(0,735))      # spawns between 0 and 800 on x-axis
+    enemyY.append(random.randint(50,150))     # spawns between 50 and 150 on y-axis
+    enemyX_change.append(1.5)
+    enemyY_change.append(30)
 
 # Bullet
 bulletImg = pygame.image.load("bullet.png")
@@ -43,14 +51,14 @@ bullet_state = "ready"
 
 score = 0   # starting score
 
-def player(x,y):
+def player(x, y):
     screen.blit(playerImg, (x, y))   # blit is for drawing
 
-def enemy(x,y):
-    screen.blit(enemyImg, (x, y))   # blit is for drawing
+def enemy(x, y, i):
+    screen.blit(enemyImg[i], (x, y))   # blit is for drawing
 
-def fire_bullet(x,y):
-    global bullet_state     # let's us access this variable
+def fire_bullet(x, y):
+    global bullet_state             # let's us change this variable
     bullet_state = "fire"
     screen.blit(bulletImg,(x + 16, y + 10)) # +16 and +10 so it fires from the top center of the ship
 
@@ -100,13 +108,27 @@ while running:
         playerX = 736
 
     # Enemy movement
-    enemyX = enemyX + enemyX_change
-    if enemyX <= 0:
-        enemyX_change = 1.5
-        enemyY = enemyY + enemyY_change
-    elif enemyX >= 800 - 64:   # screen width - player width
-        enemyX_change = -1.5
-        enemyY = enemyY + enemyY_change
+    for i in range(num_of_enemies):
+        enemyX[i] = enemyX[i] + enemyX_change[i]
+        if enemyX[i] <= 0:
+            enemyX_change[i] = 1.5
+            enemyY[i] = enemyY[i] + enemyY_change[i]
+        elif enemyX[i] >= 800 - 64:   # screen width - player width
+            enemyX_change[i] = -1.5
+            enemyY[i] = enemyY[i] + enemyY_change[i]
+        
+        # Collision
+        collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)   # stores true or false
+        if collision:
+            bulletY = 480
+            bullet_state = "ready"
+            score = score + 1
+            print(score)
+            # then respawn enemy
+            enemyX[i] = random.randint(0,735)      # spawns between 0 and 800 on x-axis
+            enemyY[i] = random.randint(50,150)     # spawns between 50 and 150 on y-axis
+
+        enemy(enemyX[i], enemyY[i], i)
 
     # Bullet movement
     if bulletY <= 0:            # when bullet passes top of screen
@@ -117,18 +139,6 @@ while running:
         fire_bullet(bulletX, bulletY)       # draw bullet
         bulletY = bulletY - bulletY_change  # move bullet in y direction
 
-    # Collision
-    collision = isCollision(enemyX, enemyY, bulletX, bulletY)   # stores true or false
-    if collision:
-        bulletY = 480
-        bullet_state = "ready"
-        score = score + 1
-        print(score)
-        # then respawn enemy
-        enemyX = random.randint(0,735)      # spawns between 0 and 800 on x-axis
-        enemyY = random.randint(50,150)     # spawns between 50 and 150 on y-axis
-
     player(playerX,playerY)    #must draw player after drawing screen so it appears on top
-    enemy(enemyX, enemyY)
 
     pygame.display.update()     # update screen
