@@ -27,14 +27,29 @@ playerX_change = 0.0
 enemyImg = pygame.image.load("mike.png")
 enemyX = random.randint(0,800)      # spawns between 0 and 800 on x-axis
 enemyY = random.randint(50,150)     # spawns between 50 and 150 on y-axis
-enemyX_change = 2
-enemyY_change = 40
+enemyX_change = 1.5
+enemyY_change = 30
+
+# Bullet
+bulletImg = pygame.image.load("bullet.png")
+bulletX = 0      
+bulletY = 480
+bulletX_change = 0
+bulletY_change = 5
+bullet_state = "ready"
+# Ready = you can't see the bullet
+# Fire = the bullet is moving
 
 def player(x,y):
     screen.blit(playerImg, (x, y))   # blit is for drawing
 
 def enemy(x,y):
     screen.blit(enemyImg, (x, y))   # blit is for drawing
+
+def fire_bullet(x,y):
+    global bullet_state     # let's us access this variable
+    bullet_state = "fire"
+    screen.blit(bulletImg,(x + 16, y + 10)) # +16 and +10 so it fires from the top center of the ship
 
 
 # Game Loop
@@ -51,12 +66,15 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # if key is pressed, check if it was right or left
+    # if key is pressed, check if it was right or left or space
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_LEFT:
             playerX_change = -3
         if event.key == pygame.K_RIGHT:
             playerX_change = 3
+        if event.key == pygame.K_SPACE:
+            fire_bullet(playerX,bulletY)
+
     if event.type == pygame.KEYUP:
         if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
             playerX_change = 0.0
@@ -73,11 +91,16 @@ while running:
     # Enemy movement
     enemyX = enemyX + enemyX_change
     if enemyX <= 0:
-        enemyX_change = 2
+        enemyX_change = 1.5
         enemyY = enemyY + enemyY_change
     elif enemyX >= 800 - 64:   # screen width - player width
-        enemyX_change = -2
+        enemyX_change = -1.5
         enemyY = enemyY + enemyY_change
+
+    # Bullet movement
+    if bullet_state is "fire":
+        fire_bullet(playerX,bulletY)
+        bulletY = bulletY - bulletY_change
 
     player(playerX,playerY)    #must draw player after drawing screen so it appears on top
     enemy(enemyX, enemyY)
