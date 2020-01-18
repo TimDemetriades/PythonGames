@@ -2,6 +2,7 @@
 
 import pygame
 import random
+import math
 
 # Initialize the pygame
 pygame.init()
@@ -25,7 +26,7 @@ playerX_change = 0.0
 
 # Enemy
 enemyImg = pygame.image.load("mike.png")
-enemyX = random.randint(0,800)      # spawns between 0 and 800 on x-axis
+enemyX = random.randint(0,735)      # spawns between 0 and 800 on x-axis
 enemyY = random.randint(50,150)     # spawns between 50 and 150 on y-axis
 enemyX_change = 1.5
 enemyY_change = 30
@@ -35,10 +36,12 @@ bulletImg = pygame.image.load("bullet.png")
 bulletX = 0      
 bulletY = 480
 bulletX_change = 0
-bulletY_change = 5
+bulletY_change = 7.5
 bullet_state = "ready"
 # Ready = you can't see the bullet
 # Fire = the bullet is moving
+
+score = 0   # starting score
 
 def player(x,y):
     screen.blit(playerImg, (x, y))   # blit is for drawing
@@ -51,6 +54,12 @@ def fire_bullet(x,y):
     bullet_state = "fire"
     screen.blit(bulletImg,(x + 16, y + 10)) # +16 and +10 so it fires from the top center of the ship
 
+def isCollision(enemyX, enemyY, bulletX, bulletY):
+    distance = math.sqrt((math.pow(enemyX-bulletX,2)) + (math.pow(enemyY-bulletY,2)))   #distance formula
+    if distance < 27:
+        return True
+    else:
+        return False
 
 # Game Loop
 # Prevents screen from closing until you quit
@@ -108,6 +117,18 @@ while running:
         fire_bullet(bulletX, bulletY)       # draw bullet
         bulletY = bulletY - bulletY_change  # move bullet in y direction
 
+    # Collision
+    collision = isCollision(enemyX, enemyY, bulletX, bulletY)   # stores true or false
+    if collision:
+        bulletY = 480
+        bullet_state = "ready"
+        score = score + 1
+        print(score)
+        # then respawn enemy
+        enemyX = random.randint(0,735)      # spawns between 0 and 800 on x-axis
+        enemyY = random.randint(50,150)     # spawns between 50 and 150 on y-axis
+
     player(playerX,playerY)    #must draw player after drawing screen so it appears on top
     enemy(enemyX, enemyY)
+
     pygame.display.update()     # update screen
