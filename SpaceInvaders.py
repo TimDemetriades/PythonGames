@@ -73,7 +73,9 @@ while running:
         if event.key == pygame.K_RIGHT:
             playerX_change = 3
         if event.key == pygame.K_SPACE:
-            fire_bullet(playerX,bulletY)
+            if bullet_state is "ready":     # check if bullet is being fired
+                bulletX = playerX           # sets bullet to shoot from where ship is
+                fire_bullet(bulletX, bulletY)
 
     if event.type == pygame.KEYUP:
         if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -98,9 +100,13 @@ while running:
         enemyY = enemyY + enemyY_change
 
     # Bullet movement
-    if bullet_state is "fire":
-        fire_bullet(playerX,bulletY)
-        bulletY = bulletY - bulletY_change
+    if bulletY <= 0:            # when bullet passes top of screen
+        bulletY = 480           # move it back to the ship
+        bullet_state = "ready"  # and change state back to ready
+
+    if bullet_state is "fire":              # when bullet is fired
+        fire_bullet(bulletX, bulletY)       # draw bullet
+        bulletY = bulletY - bulletY_change  # move bullet in y direction
 
     player(playerX,playerY)    #must draw player after drawing screen so it appears on top
     enemy(enemyX, enemyY)
