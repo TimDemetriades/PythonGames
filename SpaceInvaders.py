@@ -45,5 +45,11 @@ while running:
             playerX_change = 0.0
 
     playerX = playerX + playerX_change
+
+    if playerX <= 0:
+        playerX = 0
+    elif playerX >= 800 - 64:   # screen width - player width
+        playerX = 736
+
     player(playerX,playerY)    #must draw player after drawing screen so it appears on top
     pygame.display.update()     # update screen
