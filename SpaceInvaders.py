@@ -24,7 +24,8 @@ playerX_change = 0.0
 enemyImg = pygame.image.load("mike.png")
 enemyX = random.randint(0,800)      # spawns between 0 and 800 on x-axis
 enemyY = random.randint(50,150)     # spawns between 50 and 150 on y-axis
-enemyX_change = 0.0
+enemyX_change = 0.15
+enemyY_change = 40
 
 def player(x,y):
     screen.blit(playerImg, (x, y))   # blit is for drawing
@@ -55,12 +56,23 @@ while running:
         if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
             playerX_change = 0.0
 
+    #Player movement
     playerX = playerX + playerX_change
 
+    # Boundary checking
     if playerX <= 0:
         playerX = 0
     elif playerX >= 800 - 64:   # screen width - player width
         playerX = 736
+
+    # Enemy movement
+    enemyX = enemyX + enemyX_change
+    if enemyX <= 0:
+        enemyX_change = 0.15
+        enemyY = enemyY + enemyY_change
+    elif enemyX >= 800 - 64:   # screen width - player width
+        enemyX_change = -0.15
+        enemyY = enemyY + enemyY_change
 
     player(playerX,playerY)    #must draw player after drawing screen so it appears on top
     enemy(enemyX, enemyY)
