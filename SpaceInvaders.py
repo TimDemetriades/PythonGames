@@ -1,6 +1,7 @@
 # Space Invaders
 
 import pygame
+import random
 
 # Initialize the pygame
 pygame.init()
@@ -19,8 +20,18 @@ playerX = 370
 playerY = 480
 playerX_change = 0.0
 
+# Enemy
+enemyImg = pygame.image.load("mike.png")
+enemyX = random.randint(0,800)      # spawns between 0 and 800 on x-axis
+enemyY = random.randint(50,150)     # spawns between 50 and 150 on y-axis
+enemyX_change = 0.0
+
 def player(x,y):
     screen.blit(playerImg, (x, y))   # blit is for drawing
+
+def enemy(x,y):
+    screen.blit(enemyImg, (x, y))   # blit is for drawing
+
 
 # Game Loop
 # Prevents screen from closing until you quit
@@ -52,4 +63,5 @@ while running:
         playerX = 736
 
     player(playerX,playerY)    #must draw player after drawing screen so it appears on top
+    enemy(enemyX, enemyY)
     pygame.display.update()     # update screen
