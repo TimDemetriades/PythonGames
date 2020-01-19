@@ -61,9 +61,16 @@ font = pygame.font.Font("freesansbold.ttf", 32)     # font style and size
 textX = 10  # score x coordinate
 textY = 10  # score y coordinate
 
+# Game Over Text
+game_over_font = pygame.font.Font("freesansbold.ttf", 64)     # font style and size
+
 def show_score(x, y):
     score = font.render("Score : " + str(score_value), True, (255,255,255))
     screen.blit(score, (x, y))
+
+def game_over_text():
+    end_text = game_over_font.render("GAME OVER", True, (255,255,255))
+    screen.blit(end_text, (200, 250))   # draws text at middle of screen
 
 def player(x, y):
     screen.blit(playerImg, (x, y))   # blit is for drawing
@@ -125,6 +132,14 @@ while running:
 
     # Enemy movement
     for i in range(num_of_enemies):
+
+        # Game Over
+        if enemyY[i] > 440:
+            for j in range(num_of_enemies):
+                enemyY[j] = 2000        # moves enemies off screen
+            game_over_text()            # displays game over text
+            break
+
         enemyX[i] = enemyX[i] + enemyX_change[i]
         if enemyX[i] <= 0:
             enemyX_change[i] = 1.5
